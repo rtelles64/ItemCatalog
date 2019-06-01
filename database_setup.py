@@ -56,17 +56,17 @@ Base = declarative_base()
 
 
 # CLASS
-class Category(Base):
+class Genre(Base):
     # TABLE
-    __tablename__ = 'category'
+    __tablename__ = 'genre'
     # MAPPER
     # Name must be filled out to create a new Category row
     name = Column(String(80), nullable=False)
     id = Column(Integer, primary_key=True)
 
 
-class Item(Base):
-    __tablename__ = 'item'
+class Movie(Base):
+    __tablename__ = 'movie'
     name = Column(String(80), nullable=False)
     id = Column(Integer, primary_key=True)
     description = Column(String(250))
