@@ -73,7 +73,7 @@ class Movie(Base):
     # Establish relationship between Item and Category
     # This line says to look inside 'category' table and retrieve the id number
     # whenever asking for category_id
-    genre = Column(Integer, ForeignKey('genre.id'))
+    genre_id = Column(Integer, ForeignKey('genre.id'))
     # This line establishes the relationship
     genre = relationship(Genre)
 
