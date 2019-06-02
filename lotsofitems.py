@@ -25,17 +25,29 @@ object
 Any change made to the objects in the session won't be persisted into the
 database until we call session.commit()
 
+Some Categories:
+Action
+Adventure
+Comedy
+Drama
+Fantasy
+Horry
+Mystery
+Romance
+Science Fiction
+Thriller
+
 CREATE
 Syntax for making a New Entry (Genre)
->>> new_entry = ClassName(property="value", ...)
+>>> new_entry = ClassName(property='value', ...)
 >>> session.add(new_entry)
 >>> session.commit()
 
 Add an Movie
->>> alien = Movie(name="Alien", description="A 1979 film directed by Ridley
+>>> alien = Movie(name='Alien', description='A 1979 film directed by Ridley
 ... Scott, it follows the crew of the commercial space tug Nostromo who
 ... encounter the eponymous Alien, a deadly and aggressive extraterrestrial
-... set loose on the ship.", genre=first_genre)
+... set loose on the ship.', genre=first_genre)
 >>> session.add(alien)
 >>> session.commit()
 
@@ -54,17 +66,55 @@ Check that the Movie was added
 >>> session.query(Movie).all()
 [<database_setup.Movie object at 0x10e47c400>]
 
-Some Categories:
-Action
-Adventure
-Comedy
-Drama
-Fantasy
-Horry
-Mystery
-Romance
-Science Fiction
-Thriller
+UPDATE
+If we want to edit anything we can query the database for a specific item
+
+The .one() at the end makes sure SQLAlchemy only gives the one object we want
+instead of a list we have to iterate over
+
+>>> alien = session.query(Movie).filter_by(id=1).one()
+
+Just to check
+>>> alien.name
+'Alien'
+>>> alien.id
+1
+>>> alien.description
+'A 1979 film directed by Ridley Scott, it follows the crew of the commercial
+ space tug Nostromo who encounter the eponymous Alien, a deadly and aggressive
+ extraterrestrial set loose on the ship'
+>>> alien.description = 'A 1979 film directed by Ridley Scott, it follows the
+... crew of the commercial space tug Nostromo who encounter the eponymous
+... alien, a deadly and aggressive extraterrestrial set loose on the ship'
+>>> session.add(alien)
+>>> session.commit()
+
+To check the change was made
+
+>>> alien = session.query(Movie).filter_by(id=1).one()
+>>> alien.description
+'A 1979 film directed by Ridley Scott, it follows the crew of the commercial
+ space tug Nostromo who encounter the eponymous alien, a deadly and aggressive
+ extraterrestrial set loose on the ship'
+
+DELETE
+In order to delete from our database, we want to query for the object we want
+to delete, delete it, then commit the session
+
+>>> schindler = session.query(Movie).filter_by(name="Schindler's List").one()
+>>> session.delete(schindler)
+>>> session.commit()
+
+Now we can search again to see if the movie was deleted
+
+>>> schindler = session.query(Movie).filter_by(name="Schindler's List").one()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/local/lib/python3.7/site-packages/sqlalchemy/orm/query.py",
+    line 3282, in one
+    raise orm_exc.NoResultFound("No row was found for one()")
+sqlalchemy.orm.exc.NoResultFound: No row was found for one()
+
 """
 
 # This lets program know which database to communicate with
