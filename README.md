@@ -116,6 +116,14 @@ To exit the app, on your keyboard press `control + c`.
 
 To exit vagrant, on your keyboard press `control + d`.
 
+## Issues
+
+One issue that was encountered was the case for the 'Science Fiction' URI
+
+Since we can't put spaces in URI's we have to input this as 'science-fiction'.
+
+The full URI is: `http://localhost:8000/catalog/science-fiction/movies`
+
 ## Author(s)
 
 * **Roy Telles, Jr.** *(with the help of the Udacity team)*
