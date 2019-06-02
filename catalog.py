@@ -34,8 +34,8 @@ def show_catalog():
 
     return output
 
-
-@app.route('/catalog/<genre>/movies')
+# Remember to include trailing '/' since flask will handle if the user omits it
+@app.route('/catalog/<genre>/movies/')
 def show_movies(genre):
     # EDGE CASE: Science Fiction (will have to be input as science-fiction)
     if '-' in genre:
