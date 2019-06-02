@@ -24,17 +24,37 @@ session = DBSession()
 @app.route('/')
 def show_catalog():
     # To test, take out the first genre from our database
-    genre = session.query(Genre).first()
-    # List out all of the movies in that genre
-    movies = session.query(Movie).filter_by(genre_id=genre.id)
+    genres = session.query(Genre)
 
     output = ''
     # Test output to see we can retrieve info
+    for genre in genres:
+        output += genre.name
+        output += '</br>'
+
+    return output
+
+
+@app.route('/catalog/<genre>/movies')
+def show_movies(genre):
+    # EDGE CASE: Science Fiction (will have to be input as science-fiction)
+    if '-' in genre:
+        genre = genre.replace('-', ' ')
+
+    # Capitalize genre input since that's how they are stored
+    genre = genre.title()
+    # Query database for genre and just extract genre object
+    genre = session.query(Genre).filter_by(name=genre).one()
+
+    # List out all of the movies in that genre
+    movies = session.query(Movie).filter_by(genre=genre)
+
+    output = ''
+
+    # Print output
     for movie in movies:
         output += movie.name
         output += '</br>'
-        output += movie.description
-        output += '</br></br>'
 
     return output
 
