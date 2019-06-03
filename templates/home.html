@@ -1,9 +1,12 @@
 <html>
-    <body>
-        <h1>Genres</h1>
-        {% for genre in genres %}
-        <a href='{{ url_for('show_movies', genre_id=genre.id) }}'>{{ genre.name }}</a>
-        </br>
-        {% endfor %}
-    </body>
+<head>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Genres</h1>
+    {% for genre in genres %}
+    <a href='{{ url_for('show_movies', genre_id=genre.id) }}'>{{ genre.name }}</a>
+    </br>
+    {% endfor %}
+</body>
 </html>

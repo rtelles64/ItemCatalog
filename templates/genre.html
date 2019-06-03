@@ -1,28 +1,31 @@
 <html>
-    <body>
-        <h1>{{ genre.name }} ({{ length }} movies)</h1>
+<head>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>{{ genre.name }} ({{ length }} movies)</h1>
 
-        <a href='{{ url_for('new_movie', genre_id=genre.id) }}'>
-            Add Movie
-        </a>
-        </br></br>
-        <!-- Add flash messages to indicate movie creation -->
-        <!-- get_flashed_messages() returns an array of messages -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul>
-                    {% for message in messages %}
-                    <li>
-                        <strong>{{ message }}</strong>
-                    </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-        {% for movie in movies %}
-            <a href='{{ url_for('get_movie', genre_id=genre.id, movie_id=movie.id) }}'>{{ movie.name }}</a>
-        </br></br>
-        {% endfor %}
-        <a href= '{{url_for('show_catalog')}}'>Back to Genres</a>
-    </body>
+    <a href='{{ url_for('new_movie', genre_id=genre.id) }}'>
+        Add Movie
+    </a>
+    </br></br>
+    <!-- Add flash messages to indicate movie creation -->
+    <!-- get_flashed_messages() returns an array of messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>
+                    <strong>{{ message }}</strong>
+                </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    {% for movie in movies %}
+        <a href='{{ url_for('get_movie', genre_id=genre.id, movie_id=movie.id) }}'>{{ movie.name }}</a>
+    </br></br>
+    {% endfor %}
+    <a href= '{{url_for('show_catalog')}}'>Back to Genres</a>
+</body>
 </html>
