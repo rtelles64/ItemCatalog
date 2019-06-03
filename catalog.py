@@ -7,7 +7,7 @@
 # kill -9 PID
 
 # Set up Flask
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, request, url_for
 app = Flask(__name__)
 
 # Import Database code
@@ -27,29 +27,22 @@ def show_catalog():
     # To test, take out the first genre from our database
     genres = session.query(Genre)
 
-    output = ''
+    # output = ''
     # Test output to see we can retrieve info
-    for genre in genres:
-        output += genre.name
-        output += '</br>'
+    # for genre in genres:
+    #     output += genre.name
+    #     output += '</br>'
 
-    return output
+    return render_template('home.html', genres=genres)
 
 # Remember to include trailing '/' since flask will handle if the user omits it
-@app.route('/catalog/<genre>/movies/')
-def show_movies(genre):
-    # EDGE CASE: Science Fiction (will have to be input as science-fiction)
-    if '-' in genre:
-        genre = genre.replace('-', ' ')
-
-    # Capitalize genre input since that's how they are stored
-    genre = genre.title()
-    # Query database for genre and just extract genre object
-    genre = session.query(Genre).filter_by(name=genre).one()
+@app.route('/catalog/<int:genre_id>/movies/')
+def show_movies(genre_id):
+    genre = session.query(Genre).filter_by(id=genre_id).one()
     # List out all of the movies in that genre
-    movies = session.query(Movie).filter_by(genre=genre)
+    movies = session.query(Movie).filter_by(genre_id=genre.id)
     # Get number of movies based on genre
-    num_movies = session.query(Movie).filter_by(genre=genre).count()
+    num_movies = session.query(Movie).filter_by(genre_id=genre.id).count()
 
     # output = ''
     #
@@ -62,21 +55,13 @@ def show_movies(genre):
     #
     # return output
     return render_template('genre.html', genre=genre, movies=movies,
-                           length=num_movies)
+                           length=num_movies, genre_id=genre_id)
 
 
-@app.route('/catalog/<genre>/<movie>/')
-def get_movie(genre, movie):
-    if '-' in genre:
-        genre = genre.replace('-', ' ')
-    elif '-' in movie:
-        movie = movie.replace('-', ' ')
-
-    genre = genre.title()
-    movie = movie.title()
-
-    genre = session.query(Genre).filter_by(name=genre).one()
-    movie = session.query(Movie).filter(Movie.name.contains(movie))
+@app.route('/catalog/<int:genre_id>/<int:movie_id>/')
+def get_movie(genre_id, movie_id):
+    genre = session.query(Genre).filter_by(id=genre_id).one()
+    movie = session.query(Movie).filter_by(id=movie_id).one()
 
     # output = ''
     #
@@ -87,7 +72,48 @@ def get_movie(genre, movie):
     #     output += '</br></br>'
     #
     # return output
-    return render_template('movie.html', movie=movie)
+    return render_template('movie.html', genre=genre, movie=movie,
+                            genre_id=genre_id)
+
+
+@app.route('/catalog/<int:genre_id>/new/', methods=['GET', 'POST'])
+def new_movie(genre_id):
+    if request.method == 'POST':
+        newMovie = Movie(name=request.form['name'], genre_id=genre_id)
+        session.add(newMovie)
+        session.commit()
+
+        return redirect(url_for('show_movies', genre_id=genre_id))
+    else:
+        return render_template('newMovie.html', genre_id=genre_id)
+
+
+# Edit Movie
+@app.route('/catalog/<int:genre_id>/<int:movie_id>/edit/',
+            methods=['GET', 'POST'])
+def edit_movie(genre_id, movie_id):
+    edit_movie = session.query(Movie).filter_by(id=movie_id).one()
+
+    if request.method == 'POST':
+        if request.form['name']:
+            edit_movie.name = request.form['name']
+        if request.form['description']:
+            edit_movie.description = request.form['description']
+
+        session.add(edit_movie)
+        session.commit()
+
+        return redirect(url_for('get_movie', genre_id=genre_id,
+                                movie_id=movie_id))
+    else:
+        return render_template('editMovie.html', genre_id=genre_id,
+                                movie_id=movie_id, i=edit_movie)
+
+
+# Delete Movie
+@app.route('/catalog/<int:genre_id>/<int:movie_id>/delete/')
+def delete_movie(genre_id, movie_id):
+    return "Page to delete movie"
 
 
 if __name__ == '__main__':
