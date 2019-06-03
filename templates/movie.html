@@ -3,25 +3,31 @@
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>{{ movie.name }}</h1>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                <li>
-                    <strong>{{ message }}</strong>
-                </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-    </br>
-    {{ movie.description }}
-    </br>
-    <a href='{{ url_for('edit_movie', genre_id=genre.id, movie_id=movie.id) }}'>Edit</a>
-    |
-    <a href='{{ url_for('delete_movie', genre_id=genre.id, movie_id=movie.id) }}'>Delete</a>
-    |
-    <a href= '{{url_for('show_movies', genre_id=genre.id)}}'>Back to Movies</a>
+    <div class="container">
+        <div class="general">
+            <h1>{{ movie.name }}</h1>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                        <li>
+                            <strong>{{ message }}</strong>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            </br>
+            <p>
+                {{ movie.description }}
+            </p>
+            </br>
+            <a href='{{ url_for('edit_movie', genre_id=genre.id, movie_id=movie.id) }}'>Edit</a>
+            |
+            <a href='{{ url_for('delete_movie', genre_id=genre.id, movie_id=movie.id) }}'>Delete</a>
+            |
+            <a href= '{{url_for('show_movies', genre_id=genre.id)}}'>Back to Movies</a>
+        </div>
+    </div>
 </body>
 </html>
