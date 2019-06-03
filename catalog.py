@@ -7,7 +7,7 @@
 # kill -9 PID
 
 # Set up Flask
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
 
 # Import Database code
@@ -21,6 +21,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+@app.route('/catalog/')
 @app.route('/')
 def show_catalog():
     # To test, take out the first genre from our database
@@ -45,18 +46,23 @@ def show_movies(genre):
     genre = genre.title()
     # Query database for genre and just extract genre object
     genre = session.query(Genre).filter_by(name=genre).one()
-
     # List out all of the movies in that genre
     movies = session.query(Movie).filter_by(genre=genre)
+    # Get number of movies based on genre
+    num_movies = session.query(Movie).filter_by(genre=genre).count()
 
-    output = ''
-
-    # Print output
-    for movie in movies:
-        output += movie.name
-        output += '</br>'
-
-    return output
+    # output = ''
+    #
+    # output += genre.name + '</br></br>'
+    #
+    # # Print output
+    # for movie in movies:
+    #     output += movie.name
+    #     output += '</br>'
+    #
+    # return output
+    return render_template('genre.html', genre=genre, movies=movies,
+                           length=num_movies)
 
 
 @app.route('/catalog/<genre>/<movie>/')
@@ -70,17 +76,19 @@ def get_movie(genre, movie):
     movie = movie.title()
 
     genre = session.query(Genre).filter_by(name=genre).one()
-    movie = session.query(Movie).filter_by(name=movie)
+    movie = session.query(Movie).filter(Movie.name.contains(movie))
 
-    output = ''
+    # output = ''
+    #
+    # for film in movie:
+    #     output += film.name
+    #     output += '</br>'
+    #     output += film.description
+    #     output += '</br></br>'
+    #
+    # return output
+    return render_template('movie.html', movie=movie)
 
-    for film in movie:
-        output += film.name
-        output += '</br>'
-        output += film.description
-        output += '</br></br>'
-
-    return output
 
 if __name__ == '__main__':
     app.debug = True
