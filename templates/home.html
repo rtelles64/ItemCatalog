@@ -1,0 +1,9 @@
+<html>
+    <body>
+        <h1>Genres</h1>
+        {% for genre in genres %}
+        <a href='{{ url_for('show_movies', genre_id=genre.id) }}'>{{ genre.name }}</a>
+        </br>
+        {% endfor %}
+    </body>
+</html>

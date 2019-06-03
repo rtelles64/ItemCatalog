@@ -2,9 +2,14 @@
     <body>
         <h1>{{ genre.name }} ({{ length }} movies)</h1>
 
+        <a href='{{ url_for('new_movie', genre_id=genre.id) }}'>
+            Add Movie
+        </a>
+        </br></br>
         {% for movie in movies %}
-            {{ movie.name }}
-        </br>
+            <a href='{{ url_for('get_movie', genre_id=genre.id, movie_id=movie.id) }}'>{{ movie.name }}</a>
+        </br></br>
         {% endfor %}
+        <a href= '{{url_for('show_catalog')}}'>Back to Genres</a>
     </body>
 </html>

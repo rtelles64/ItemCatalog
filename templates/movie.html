@@ -1,9 +1,13 @@
 <html>
     <body>
-        {% for film in movie %}
-            <h1>{{ film.name }}</h1>
+        <h1>{{ movie.name }}</h1>
         </br>
-            {{ film.description }}
-        {% endfor %}
+        {{ movie.description }}
+        </br>
+        <a href='{{ url_for('edit_movie', genre_id=genre.id, movie_id=movie.id) }}'>Edit</a>
+        |
+        <a href='{{ url_for('delete_movie', genre_id=genre.id, movie_id=movie.id) }}'>Delete</a>
+        |
+        <a href= '{{url_for('show_movies', genre_id=genre.id)}}'>Back to Movies</a>
     </body>
 </html>
