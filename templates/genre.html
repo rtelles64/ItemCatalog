@@ -1,0 +1,10 @@
+<html>
+    <body>
+        <h1>{{ genre.name }} ({{ length }} movies)</h1>
+
+        {% for movie in movies %}
+            {{ movie.name }}
+        </br>
+        {% endfor %}
+    </body>
+</html>
