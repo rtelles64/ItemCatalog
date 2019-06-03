@@ -21,6 +21,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+# Show (READ) genres
 @app.route('/catalog/')
 @app.route('/')
 def show_catalog():
@@ -35,6 +36,8 @@ def show_catalog():
 
     return render_template('home.html', genres=genres)
 
+
+# Show (READ) movies of selected genre
 # Remember to include trailing '/' since flask will handle if the user omits it
 @app.route('/catalog/<int:genre_id>/movies/')
 def show_movies(genre_id):
@@ -58,6 +61,7 @@ def show_movies(genre_id):
                            length=num_movies, genre_id=genre_id)
 
 
+# Show (READ) selected movie info
 @app.route('/catalog/<int:genre_id>/<int:movie_id>/')
 def get_movie(genre_id, movie_id):
     genre = session.query(Genre).filter_by(id=genre_id).one()
@@ -76,6 +80,7 @@ def get_movie(genre_id, movie_id):
                             genre_id=genre_id)
 
 
+# Add (CREATE) movie
 @app.route('/catalog/<int:genre_id>/new/', methods=['GET', 'POST'])
 def new_movie(genre_id):
     if request.method == 'POST':
@@ -88,7 +93,7 @@ def new_movie(genre_id):
         return render_template('newMovie.html', genre_id=genre_id)
 
 
-# Edit Movie
+# Edit (UPDATE) Movie
 @app.route('/catalog/<int:genre_id>/<int:movie_id>/edit/',
             methods=['GET', 'POST'])
 def edit_movie(genre_id, movie_id):
@@ -110,10 +115,19 @@ def edit_movie(genre_id, movie_id):
                                 movie_id=movie_id, i=edit_movie)
 
 
-# Delete Movie
-@app.route('/catalog/<int:genre_id>/<int:movie_id>/delete/')
+# DELETE Movie
+@app.route('/catalog/<int:genre_id>/<int:movie_id>/delete/',
+            methods=['GET', 'POST'])
 def delete_movie(genre_id, movie_id):
-    return "Page to delete movie"
+    delete_movie = session.query(Movie).filter_by(id=movie_id).one()
+
+    if request.method == 'POST':
+        session.delete(delete_movie)
+        session.commit()
+
+        return redirect(url_for('show_movies', genre_id=genre_id))
+    else:
+        return render_template('deleteMovie.html', i=delete_movie)
 
 
 if __name__ == '__main__':
