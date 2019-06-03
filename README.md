@@ -127,6 +127,10 @@ The full URI is: `http://localhost:8000/catalog/science-fiction/movies/`
 > Note: This applies to movies like 'Get Out'
   e.g. http://localhost:8000/catalog/horror/get-out/
 
+For movies like `Valentine's Day` you can just enter a uri like:
+
+`http://localhost:8000/catalog/romance/valentine/`
+
 ## Author(s)
 
 * **Roy Telles, Jr.** *(with the help of the Udacity team)*
