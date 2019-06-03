@@ -6,6 +6,19 @@
             Add Movie
         </a>
         </br></br>
+        <!-- Add flash messages to indicate movie creation -->
+        <!-- get_flashed_messages() returns an array of messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                    <li>
+                        <strong>{{ message }}</strong>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
         {% for movie in movies %}
             <a href='{{ url_for('get_movie', genre_id=genre.id, movie_id=movie.id) }}'>{{ movie.name }}</a>
         </br></br>
