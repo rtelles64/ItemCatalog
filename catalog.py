@@ -7,7 +7,7 @@
 # kill -9 PID
 
 # Set up Flask
-from flask import Flask, redirect, render_template, request, url_for
+from flask import flash, Flask, redirect, render_template, request, url_for
 app = Flask(__name__)
 
 # Import Database code
@@ -88,6 +88,9 @@ def new_movie(genre_id):
         session.add(newMovie)
         session.commit()
 
+        # Let user know movie was successfully created
+        flash("New movie created!")
+
         return redirect(url_for('show_movies', genre_id=genre_id))
     else:
         return render_template('newMovie.html', genre_id=genre_id)
@@ -108,6 +111,9 @@ def edit_movie(genre_id, movie_id):
         session.add(edit_movie)
         session.commit()
 
+        # Let user know movie was successfully edited
+        flash("Movie edited!")
+
         return redirect(url_for('get_movie', genre_id=genre_id,
                                 movie_id=movie_id))
     else:
@@ -125,11 +131,16 @@ def delete_movie(genre_id, movie_id):
         session.delete(delete_movie)
         session.commit()
 
+        # Let user know movie was deleted successfully
+        flash("Movie deleted!")
+
         return redirect(url_for('show_movies', genre_id=genre_id))
     else:
         return render_template('deleteMovie.html', i=delete_movie)
 
 
 if __name__ == '__main__':
+    # Add flash functionality
+    app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=8000)
