@@ -59,6 +59,29 @@ def show_movies(genre):
     return output
 
 
+@app.route('/catalog/<genre>/<movie>/')
+def get_movie(genre, movie):
+    if '-' in genre:
+        genre = genre.replace('-', ' ')
+    elif '-' in movie:
+        movie = movie.replace('-', ' ')
+
+    genre = genre.title()
+    movie = movie.title()
+
+    genre = session.query(Genre).filter_by(name=genre).one()
+    movie = session.query(Movie).filter_by(name=movie)
+
+    output = ''
+
+    for film in movie:
+        output += film.name
+        output += '</br>'
+        output += film.description
+        output += '</br></br>'
+
+    return output
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=8000)
