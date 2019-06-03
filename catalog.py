@@ -7,7 +7,8 @@
 # kill -9 PID
 
 # Set up Flask
-from flask import flash, Flask, redirect, render_template, request, url_for
+from flask import (flash, Flask, jsonify, redirect, render_template, request,
+                    url_for)
 app = Flask(__name__)
 
 # Import Database code
@@ -19,6 +20,49 @@ engine = create_engine('sqlite:///catalog.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+
+# Say there's a web app that wants to collect our data
+#
+# The app wants to see genre and movie info but doesn't want need to parse
+# through html or waste bandwidth receiving css files
+#
+# For this reason we have APIs, that allow external apps to use public info
+# our apps want to share without bells and whistles
+#
+# When an API is communicated over the internet, following the rules of HTTP,
+# this is a RESTful API
+#
+# The most popular ways of sending data with a RESTful architecure is with
+# JSON format
+#
+# Here we include the JSON format implementation
+
+
+# API ENDPOINTS
+# Genres JSON
+@app.route('/catalog.json')
+def catalog_json():
+    genres = session.query(Genre)
+
+    return jsonify(Genres=[i.serialize for i in genres])
+
+
+# Movies per Genre JSON
+@app.route('/catalog/<int:genre_id>/movies.json')
+def movies_json(genre_id):
+    genre = session.query(Genre).filter_by(id=genre_id).one()
+    movies = session.query(Movie).filter_by(genre_id=genre.id)
+
+    return jsonify(Movies=[i.serialize for i in movies])
+
+
+# Single movie JSON
+@app.route('/catalog/<int:movie_id>.json')
+def solo_json(movie_id):
+    movie = session.query(Movie).filter_by(id=movie_id).one()
+
+    return jsonify(Movie=movie.serialize)
 
 
 # Show (READ) genres
