@@ -122,7 +122,10 @@ One issue that was encountered was the case for the 'Science Fiction' URI
 
 Since we can't put spaces in URI's we have to input this as 'science-fiction'.
 
-The full URI is: `http://localhost:8000/catalog/science-fiction/movies`
+The full URI is: `http://localhost:8000/catalog/science-fiction/movies/`
+
+> Note: This applies to movies like 'Get Out'
+  e.g. http://localhost:8000/catalog/horror/get-out/
 
 ## Author(s)
 
