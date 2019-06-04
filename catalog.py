@@ -11,6 +11,10 @@ from flask import (flash, Flask, jsonify, redirect, render_template, request,
                     url_for)
 app = Flask(__name__)
 
+# Add imports for authentication and authorization
+from flask import session as login_session
+import random, string
+
 # Import Database code
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -22,6 +26,15 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+# Create state token to prevent request forgery
+# Store it in session for later validation
+@app.route('/login')
+def show_login():
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                    for x in range(32))
+    login_session['state'] = state
+
+    return "The current session state is %s" % login_session['state']
 # Say there's a web app that wants to collect our data
 #
 # The app wants to see genre and movie info but doesn't want need to parse
