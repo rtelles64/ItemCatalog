@@ -55,6 +55,16 @@ from sqlalchemy import create_engine
 Base = declarative_base()
 
 
+# Create User able in order to implement local permission system
+class User(Base):
+    __tablename__ = 'user'
+
+    name = Column(String(250), nullable=False)
+    email = Column(String(250), nullable=False)
+    picture = Column(String(250))
+    id = Column(Integer, primary_key=True)
+
+
 # CLASS
 class Genre(Base):
     # TABLE
