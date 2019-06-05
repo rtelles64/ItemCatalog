@@ -13,12 +13,29 @@ app = Flask(__name__)
 
 # Add imports for authentication and authorization
 from flask import session as login_session
-import random, string
+import json, random, string
+
+# Import code to handle code sent from callback method
+# flow_from_clientsecrets: creates a flow object from the client_secrets.json
+# file
+# FlowExchangeError: handles error trying to exchange authorization code for
+# an access token
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.client import FlowExchangeError
+import httplib2
+from flask import make_response
+import requests
+
+# Read in google auth info
+CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
+
+# Read in facebook auth info
+APP_ID = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_id']
 
 # Import Database code
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Base, Genre, Movie
+from database_setup import Base, Genre, Movie, User
 
 engine = create_engine('sqlite:///catalog.db')
 Base.metadata.bind = engine
@@ -34,7 +51,140 @@ def show_login():
                     for x in range(32))
     login_session['state'] = state
 
-    return "The current session state is %s" % login_session['state']
+    # return "The current session state is %s" % login_session['state']
+    return render_template('login.html', client_id=CLIENT_ID, app_id=APP_ID,
+        STATE=state)
+
+
+# Create server-side function to handle google sign in callback
+@app.route('/gconnect', methods=['POST'])
+def gconnect():
+    # now that we confirm that the token the client sends to the server matches
+    # the token that the server sent to the client
+    # this helps make sure that the user is making the request and not a
+    # malicious script
+    if request.args.get('state') != login_session['state']:
+        response = make_response(json.dumps('Invalid state parameter'), 401)
+        response.headers['Content-Type'] = 'application/json'
+
+        return response
+
+    # Obtain authorization code
+    code = request.data
+
+    try:
+        # upgrade the authorization code into a credentials object
+        # create a oauth_flow object and add client_secret key info into it
+        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        # Specify with 'postmessage' that this is the onetime code flow the
+        # server will be sending off
+        oauth_flow.redirect_uri = 'postmessage'
+        # initiate the exchange and pass in the one time code
+        credentials = oauth_flow.step2_exchange(code)
+    except FlowExchangeError:
+        response = make_response(json.dumps(
+            'Failed to upgrade the authorization code.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+
+        return response
+
+    # Check that the access token is valid
+    access_token = credentials.access_token
+    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s'
+            % access_token)
+    # Create a JSON GET request that contains the url and access token
+    # Store the result of the request in a variable called result
+    h = httplib2.Http()
+    result = json.loads(h.request(url, 'GET')[1])
+
+    # If there was an error in the access token info, abort.
+    # If this if statement is not True, then we know we have a working access
+    # token
+    if result.get('error') is not None:
+        response = make_response(json.dumps(result.get('error')), 500)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Verify that the access token is used for the intended user
+    gplus_id = credentials.id_token['sub']
+    if result['user_id'] != gplus_id:
+        response = make_response(
+            json.dumps("Token's user ID doesn't match given user ID."), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Verify that the access token is valid for this app
+    if result['issued_to'] != CLIENT_ID:
+        response = make_response(
+            json.dumps("Token's client ID does not match app's."), 401)
+        print "Token's client ID does not match app's."
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Check to see if user is already logged in
+    stored_access_token = login_session.get('access_token')
+    stored_gplus_id = login_session.get('gplus_id')
+    if stored_access_token is not None and gplus_id == stored_gplus_id:
+        response = make_response(json.dumps(
+            'Current user is already connected.'), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Assuming none of the above if statements were True
+    # Store the access token in the session for later use
+    login_session['provider'] = 'google'  # ADD PROVIDER TO LOGIN SESSION
+    login_session['access_token'] = credentials.access_token
+    login_session['gplus_id'] = gplus_id
+    response = make_response(json.dumps('Successfully connected user'), 200)
+
+    # Get user info
+    userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
+    params = {'access_token': credentials.access_token, 'alt': 'json'}
+    answer = requests.get(userinfo_url, params=params)
+    data = answer.json()
+
+    login_session['username'] = data["name"]
+    login_session['picture'] = data["picture"]
+    login_session['email'] = data["email"]
+
+    # See if user exists, if it doesn't make a new one
+    user_id = getUserID(data['email'])
+    if not user_id:
+        user_id = createUser(login_session)
+    login_session['user_id'] = user_id
+
+    output = ''
+    output += '<h1>Welcome, '
+    output += login_session['username']
+    output += '!</h1>'
+    output += '<img src="'
+    output += login_session['picture']
+    output += (' " style="width: 300px; height:300px; border-radius: 150px;"'
+                '" -webkit-border-radius: 150px; -moz-border-radius: 150px;">')
+
+    flash("you are now logged in as %s" % login_session['username'])
+    print "done!"
+    return output
+
+
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
+
+
+def createUser(login_session):
+    newUser = User(name=login_session['username'],
+                   email=login_session['email'],
+                   picture=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+
 # Say there's a web app that wants to collect our data
 #
 # The app wants to see genre and movie info but doesn't want need to parse
