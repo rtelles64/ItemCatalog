@@ -27,10 +27,12 @@ from flask import make_response
 import requests
 
 # Read in google auth info
-CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
+CLIENT_ID = json.loads(open(
+    'client_secrets.json', 'r').read())['web']['client_id']
 
 # Read in facebook auth info
-APP_ID = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_id']
+APP_ID = json.loads(open(
+    'fb_client_secrets.json', 'r').read())['web']['app_id']
 
 # Import Database code
 from sqlalchemy import create_engine
@@ -117,7 +119,7 @@ def gconnect():
     if result['issued_to'] != CLIENT_ID:
         response = make_response(
             json.dumps("Token's client ID does not match app's."), 401)
-        print "Token's client ID does not match app's."
+        print("Token's client ID does not match app's.")
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -163,8 +165,73 @@ def gconnect():
                 '" -webkit-border-radius: 150px; -moz-border-radius: 150px;">')
 
     flash("you are now logged in as %s" % login_session['username'])
-    print "done!"
+    print("done!")
     return output
+
+
+# Disconnect - revoke a current user's token and reset their login_session
+@app.route('/gdisconnect')
+def gdisconnect():
+    # only disconnect connected users
+    access_token = login_session.get('access_token')
+
+    if access_token is None:
+        print("Access token is None")
+        response = make_response(json.dumps(
+            'Current user not connected'), 401)
+        response.headers['Content-Type'] = 'application/json'
+
+        return response
+
+    print("In gdisconnect access token is %s" % access_token)
+    print("Username is: %s" % login_session['username'])
+
+    # Execute HTTP GET request to revoke current token
+    url = ('https://accounts.google.com/o/oauth2/revoke2token=%s'
+            % login_session['access_token'])
+    h = httplib2.Http()
+    result = h.request(url, 'GET')[0]
+
+    print("Result is: %s" % result)
+
+    if result['status'] == '200':
+        response = make_response(json.dumps(
+            'Successfully disconnected'), 200)
+        response.headers['Content-Type'] = 'application/json'
+
+        return response
+    else:
+        # For whatever reason, the given token was invalid
+        response = make_response(json.dumps(
+            'Failed to revoke token for given user', 400))
+        response.headers['Content-Type'] = 'application/json'
+
+        return response
+
+
+@app.route('/disconnect')
+def disconnect():
+    if 'provider' in login_session:
+        if login_session['provider'] == 'google':
+            gdisconnect()
+            del login_session['gplus_id']
+            del login_session['access_token']
+        if login_session['provider'] == 'facebook':
+            fbdisconnect()
+            del login_session['facebook_id']
+
+        del login_session['username']
+        del login_session['email']
+        del login_session['picture']
+        del login_session['user_id']
+        del login_session['provider']
+
+        flash("You have successfully been logged out.")
+
+        return redirect(url_for('show_catalog'))
+    else:
+        flash("You were not logged in to begin with!")
+        redirect(url_for('show_catalog'))
 
 
 def getUserID(email):
