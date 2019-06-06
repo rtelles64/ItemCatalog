@@ -127,6 +127,12 @@ DBSession = sessionmaker(bind=engine)
 # This gives a staging zone for all objects loaded into DBSession object
 session = DBSession()
 
+# Create dummy User
+User1 = User(name="Robo Barista", email="tinnyTim@udacity.com",
+             picture='https://pbs.twimg.com/profile_images/2671170543/18debd694829ed78203a5a36dd364160_300x300.png')
+session.add(User1)
+session.commit()
+
 # The Action Genre and Alien (as Action) has been added to the database
 # Add the rest of the genres and some movies as part of those genres
 
