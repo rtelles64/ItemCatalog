@@ -394,10 +394,13 @@ def get_movie(genre_id, movie_id):
 def new_movie(genre_id):
     # Protect this page
     if 'username' not in login_session:
-        return redirect('/login')
+        flash("You need to be logged in to do that!")
+        return redirect(url_for('show_movies', genre_id=genre_id))
 
     if request.method == 'POST':
-        newMovie = Movie(name=request.form['name'], genre_id=genre_id)
+        newMovie = Movie(name=request.form['name'],
+                         genre_id=genre_id,
+                         user_id=login_session['user_id'])
         session.add(newMovie)
         session.commit()
 
@@ -417,7 +420,8 @@ def edit_movie(genre_id, movie_id):
 
     # Protect this page
     if 'username' not in login_session:
-        return redirect('/login')
+        flash("You need to be logged in to do that!")
+        return redirect(url_for('show_movies', genre_id=genre_id))
 
     if request.method == 'POST':
         if request.form['name']:
@@ -446,7 +450,8 @@ def delete_movie(genre_id, movie_id):
 
     # Protect this page
     if 'username' not in login_session:
-        return redirect('/login')
+        flash("You need to be logged in to do that!")
+        return redirect(url_for('show_movies', genre_id=genre_id))
 
     if request.method == 'POST':
         session.delete(delete_movie)
