@@ -9,7 +9,7 @@
             <form action="{{ url_for('delete_movie', genre_id=i.genre_id, movie_id=i.id)}}" method='post'>
                 <input type='submit', value='Delete' />
             </form>
-            <a href= '{{url_for('show_movies', genre_id=i.genre_id)}}'>Cancel</a>
+            <a href= '{{url_for('get_movie', genre_id=i.genre_id, movie_id=i.id)}}'>Cancel</a>
         </div>
     </div>
 </body>

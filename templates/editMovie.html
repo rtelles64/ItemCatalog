@@ -16,7 +16,7 @@
             </br>
             <input type='submit' value='Edit'>
             </form>
-            <a href= '{{url_for('show_movies', genre_id= i.genre_id)}}'>Cancel</a>
+            <a href= '{{url_for('get_movie', genre_id= i.genre_id, movie_id=i.id)}}'>Cancel</a>
         </div>
     </div>
 </body>
