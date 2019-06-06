@@ -6,10 +6,9 @@
     <div class="container">
         <div class="general">
             <h1>{{ genre.name }} ({{ length }} movies)</h1>
-
-            <a href='{{ url_for('new_movie', genre_id=genre.id) }}'>
-                Add Movie
-            </a>
+                <a href='{{ url_for('new_movie', genre_id=genre.id) }}'>
+                    Add Movie
+                </a>
             </br></br>
             <!-- Add flash messages to indicate movie creation -->
             <!-- get_flashed_messages() returns an array of messages -->
