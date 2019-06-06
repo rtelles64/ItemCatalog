@@ -73,6 +73,8 @@ class Genre(Base):
     # Name must be filled out to create a new Category row
     name = Column(String(80), nullable=False)
     id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
 
     @property
     def serialize(self):
@@ -96,6 +98,8 @@ class Movie(Base):
     genre_id = Column(Integer, ForeignKey('genre.id'))
     # This line establishes the relationship
     genre = relationship(Genre)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
 
     @property
     def serialize(self):
