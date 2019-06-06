@@ -357,6 +357,10 @@ def get_movie(genre_id, movie_id):
 # Add (CREATE) movie
 @app.route('/catalog/<int:genre_id>/new/', methods=['GET', 'POST'])
 def new_movie(genre_id):
+    # Protect this page
+    if 'username' not in login_session:
+        return redirect('/login')
+
     if request.method == 'POST':
         newMovie = Movie(name=request.form['name'], genre_id=genre_id)
         session.add(newMovie)
@@ -375,6 +379,10 @@ def new_movie(genre_id):
             methods=['GET', 'POST'])
 def edit_movie(genre_id, movie_id):
     edit_movie = session.query(Movie).filter_by(id=movie_id).one()
+
+    # Protect this page
+    if 'username' not in login_session:
+        return redirect('/login')
 
     if request.method == 'POST':
         if request.form['name']:
@@ -400,6 +408,10 @@ def edit_movie(genre_id, movie_id):
             methods=['GET', 'POST'])
 def delete_movie(genre_id, movie_id):
     delete_movie = session.query(Movie).filter_by(id=movie_id).one()
+
+    # Protect this page
+    if 'username' not in login_session:
+        return redirect('/login')
 
     if request.method == 'POST':
         session.delete(delete_movie)
