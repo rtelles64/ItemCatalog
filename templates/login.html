@@ -8,7 +8,7 @@
       function start() {
         gapi.load('auth2', function() {
           auth2 = gapi.auth2.init({
-            client_id: "{{ client_id }}"
+            client_id: '{{client_id}}'
           });
         });
       }
@@ -63,7 +63,7 @@
     <script>
         window.fbAsyncInit = function() {
             FB.init({
-                appId   : "{{ app_id }}",
+                appId   : '{{ app_id }}',
                 cookie  : true,   // enable cookies to allow server to access session
                 xfbml   : true,   // parse social plugins on this page
                 version : 'v2.8'  // use version 2.2
