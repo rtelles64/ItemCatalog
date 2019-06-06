@@ -83,3 +83,12 @@ a {
 .flash {
     background: #cee5f5;
 }
+
+figure {
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+figcaption {
+    font-size: .6em;
+}
