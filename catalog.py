@@ -234,7 +234,32 @@ def disconnect():
         redirect(url_for('show_catalog'))
 
 
+def getUserInfo(user_id):
+    '''
+        Gets User information.
+
+        Params
+            user_id (int): User id of user info to be retrieved
+
+        Returns
+            user (Object): User object with related information
+    '''
+    user = session.query(User).filter_by(id=user_id).one()
+
+    return user
+
+
 def getUserID(email):
+    '''
+        Gets User id.
+
+        Params
+            email (str): Email to check to obtain User id
+
+        Returns
+            user.id (int): Corresponding User's id
+            None: If no email exists, None is returned
+    '''
     try:
         user = session.query(User).filter_by(email=email).one()
         return user.id
@@ -243,6 +268,16 @@ def getUserID(email):
 
 
 def createUser(login_session):
+    '''
+        Creates new User in database extracting necessary fields necessary
+        from login_session.
+
+        Params
+            login_session (dict): User data to be extracted
+
+        Returns
+            user.id (int): User id
+    '''
     newUser = User(name=login_session['username'],
                    email=login_session['email'],
                    picture=login_session['picture'])
