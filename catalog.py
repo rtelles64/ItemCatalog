@@ -366,8 +366,15 @@ def show_movies(genre_id):
     #     output += '</br>'
     #
     # return output
-    return render_template('genre.html', genre=genre, movies=movies,
-                           length=num_movies, genre_id=genre_id)
+
+    # Check if user is logged in and render template accordingly (this adds
+    # user-based level of protection)
+    if 'username' not in login_session:
+        return render_template('publicgenre.html', genre=genre, movies=movies,
+                                 length=num_movies, genre_id=genre_id)
+    else:
+        return render_template('genre.html', genre=genre, movies=movies,
+                               length=num_movies, genre_id=genre_id)
 
 
 # Show (READ) selected movie info
@@ -375,6 +382,7 @@ def show_movies(genre_id):
 def get_movie(genre_id, movie_id):
     genre = session.query(Genre).filter_by(id=genre_id).one()
     movie = session.query(Movie).filter_by(id=movie_id).one()
+    creator = getUserInfo(movie.user_id)
 
     # output = ''
     #
@@ -385,8 +393,15 @@ def get_movie(genre_id, movie_id):
     #     output += '</br></br>'
     #
     # return output
-    return render_template('movie.html', genre=genre, movie=movie,
-                            genre_id=genre_id)
+
+    # Check if user logged in or if is associated with movie
+    if ('username' not in login_session or
+            creator.id != login_session['user_id']):
+        return render_template('publicmovie.html', genre=genre, movie=movie,
+                                genre_id=genre_id, creator=creator)
+    else:
+        return render_template('movie.html', genre=genre, movie=movie,
+                                genre_id=genre_id, creator=creator)
 
 
 # Add (CREATE) movie
