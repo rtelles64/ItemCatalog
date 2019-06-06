@@ -136,7 +136,7 @@ session.add(action)
 session.commit()
 
 # Action Movies
-alien = Movie(name="Alien",
+alien = Movie(user_id=1, name="Alien",
     description=("A 1979 film directed by Ridley Scott, it follows the crew"
                  " of the commercial space tug Nostromo who encounter the"
                  " eponymous Alien, a deadly and aggressive extraterrestrial"
@@ -145,7 +145,7 @@ alien = Movie(name="Alien",
 session.add(alien)
 session.commit()
 
-die_hard = Movie(name="Die Hard",
+die_hard = Movie(user_id=1, name="Die Hard",
     description=("A 1988 film directed by John McTiernan that follows"
                 " off-duty New York City Police Department officer John"
                 " McClane (Bruce Willis) who is caught in a Los Angeles"
@@ -154,7 +154,7 @@ die_hard = Movie(name="Die Hard",
 session.add(die_hard)
 session.commit()
 
-predator = Movie(name="Predator",
+predator = Movie(user_id=1, name="Predator",
     description=("A 1987 film directed by John McTiernan that follows an"
                 " elite military rescue team on a mission to save hostages"
                 " in guerrilla-held territory in Central America. The"
@@ -164,7 +164,7 @@ predator = Movie(name="Predator",
 session.add(predator)
 session.commit()
 
-matrix = Movie(name="The Matrix",
+matrix = Movie(user_id=1, name="The Matrix",
     description=("A 1999 film directed by the Wachowskis, it depicts a"
                   " dystopian future in which humanity is unknowingly"
                   " trapped inside a simulated reality, the Matrix, created"
@@ -174,7 +174,7 @@ matrix = Movie(name="The Matrix",
 session.add(matrix)
 session.commit()
 
-gladiator = Movie(name="Gladiator",
+gladiator = Movie(user_id=1, name="Gladiator",
     description=("A 2000 film directed by Ridley Scott that follows general"
                 " Maximus Decimus Meridius, who is betrayed when Commodus,"
                 " the ambitious son of Emperor Marcus Aurelius, murders his"
@@ -193,14 +193,14 @@ session.commit()
 print("Adventure genre added!")
 
 # Adventure Movies
-kong = Movie(name="Kong: Skull Island",
+kong = Movie(user_id=1, name="Kong: Skull Island",
     description=("A 2017 film directed by Jordan Vogt-Roberts that is a reboot"
                 " of the King Kong franchise"),
     genre=adventure)
 session.add(kong)
 session.commit()
 
-captain_america = Movie(name="Captain America: The First Avenger",
+captain_america = Movie(user_id=1, name="Captain America: The First Avenger",
     description=("A 2011 film based on the Marvel Comics character Captain"
                 " America. The film tells the story of Steve Rogers, a man"
                 " from Brooklyn who is transformed into the super-soldier"
@@ -211,7 +211,7 @@ captain_america = Movie(name="Captain America: The First Avenger",
 session.add(captain_america)
 session.commit()
 
-avengers = Movie(name="The Avengers",
+avengers = Movie(user_id=1, name="The Avengers",
     description=("A 2012 film based on the Marvel Comics superhero team of"
                 " the same name.  In the film, Nick Fury, director of the"
                 " spy agency S.H.I.E.L.D., recruits Tony Stark, Steve Rogers,"
@@ -221,7 +221,7 @@ avengers = Movie(name="The Avengers",
 session.add(avengers)
 session.commit()
 
-guardians = Movie(name="Guardians of the Galaxy",
+guardians = Movie(user_id=1, name="Guardians of the Galaxy",
     description=("A 2014 film based on the Marvel Comics superhero team of"
                   " the same name. In the film, Peter Quill forms an uneasy"
                   " alliance with a group of extraterrestrial criminals who"
@@ -230,7 +230,7 @@ guardians = Movie(name="Guardians of the Galaxy",
 session.add(guardians)
 session.commit()
 
-doctor_strange = Movie(name="Doctor Strange",
+doctor_strange = Movie(user_id=1, name="Doctor Strange",
     description=("A 2016 film based on the Marvel Comics character of the"
                 " same name. In the film, former surgeon Stephen Strange"
                 " learns the mystic arts after a career-ending car crash"),
@@ -248,7 +248,7 @@ session.commit()
 print("Comedy genre added!")
 
 # Comedy Movies
-jump_street = Movie(name="21 Jump Street",
+jump_street = Movie(user_id=1, name="21 Jump Street",
     description=("A 2012 film directed by Phil Lord and Christopher Miller,"
                 " it follows two police officers who are forced to relive"
                 " high school when they are assigned to go undercover as"
@@ -258,7 +258,7 @@ jump_street = Movie(name="21 Jump Street",
 session.add(jump_street)
 session.commit()
 
-bridesmaids = Movie(name="Bridesmaids",
+bridesmaids = Movie(user_id=1, name="Bridesmaids",
     description=("A 2011 film directed by Paul Feig, it centers on Annie"
                 " (Kristen Wiig), who suffers a series of misfortunes after"
                 " being asked to serve as maid of honor for her best friend,"
@@ -267,7 +267,7 @@ bridesmaids = Movie(name="Bridesmaids",
 session.add(bridesmaids)
 session.commit()
 
-hangover = Movie(name="The Hangover",
+hangover = Movie(user_id=1, name="The Hangover",
     description=("A 2009 film directed by Todd Phillips, it tells the story of"
                 " Phil Wenneck, Stu Price, Alan Garner, and Doug Billings,"
                 " who travel to Las Vegas for a bachelor party to celebrate"
@@ -276,7 +276,7 @@ hangover = Movie(name="The Hangover",
 session.add(hangover)
 session.commit()
 
-step_brothers = Movie(name="Step Brothers",
+step_brothers = Movie(user_id=1, name="Step Brothers",
     description=("A 2008 film directed by Adam Mckay, it follows Brennan"
                 " (Will Ferrell) and Dale (John C. Reilly), two grown men who"
                 " are forced to live together as brothers after their single"
@@ -285,7 +285,7 @@ step_brothers = Movie(name="Step Brothers",
 session.add(step_brothers)
 session.commit()
 
-tropic_thunder = Movie(name="Tropic Thunder",
+tropic_thunder = Movie(user_id=1, name="Tropic Thunder",
     description=("A 2008 film directed by Ben Stiller, it follows a group of"
                 " prima donna actors who, when their frustrated director"
                 " (Steve Coogan) drops them in the middle of a jungle, are"
@@ -305,7 +305,7 @@ session.commit()
 print("Drama genre added!")
 
 # Drama Movies
-first_man = Movie(name="First Man",
+first_man = Movie(user_id=1, name="First Man",
     description=("A 2018 film directed by Damien Chazelle that follows the"
                 " years leading up to the Apollo 11 mission to the Moon"
                 " in 1969"),
@@ -313,7 +313,7 @@ first_man = Movie(name="First Man",
 session.add(first_man)
 session.commit()
 
-true_story = Movie(name="True Story",
+true_story = Movie(user_id=1, name="True Story",
     description=("A 2015 film directed by Rupert Goold, it follows the story"
                 " of Christian Longo, a man on the FBI's most wanted list"
                 " accused of murdering his wife and three children in Oregon."
@@ -323,7 +323,7 @@ true_story = Movie(name="True Story",
 session.add(true_story)
 session.commit()
 
-help = Movie(name="The Help",
+help = Movie(user_id=1, name="The Help",
     description=("A 2011 film directed by Tate Taylor, it recounts the story"
                  " of aspiring journalist Eugenia. The story focuses on her"
                  " relationship with two black maids, Aibileen and Minny,"
@@ -333,7 +333,7 @@ help = Movie(name="The Help",
 session.add(help)
 session.commit()
 
-schindler = Movie(name="Schindler's List",
+schindler = Movie(user_id=1, name="Schindler's List",
     description=("A 1993 film directed by Steven Spielberg, it follows Oskar"
                  " Schindler, a Sudeten German businessman, who saved the"
                  " lives of more than a thousand mostly Polish-Jewish"
@@ -343,7 +343,7 @@ schindler = Movie(name="Schindler's List",
 session.add(schindler)
 session.commit()
 
-shawhank = Movie(name="The Shawshank Redemption",
+shawhank = Movie(user_id=1, name="The Shawshank Redemption",
     description=("A 1994 film directed by Frank Darabont, it tells the story"
                  " of banker Andy Dufresne, who is sentenced to life in"
                  " Shawshank State Penitentiary for the murder of his wife"
@@ -362,7 +362,8 @@ session.commit()
 print("Fantasy genre added!")
 
 # Fantasy Movies
-fantastic_beasts = Movie(name="Fantastic Beasts and Where to Find Them",
+fantastic_beasts = Movie(user_id=1,
+    name="Fantastic Beasts and Where to Find Them",
     description=("A 2016 film directed by David Yates, it is a spin-off and"
                  " prequel to the Harry Potter film series, and is produced"
                  " and written by J. K. Rowling, inspired by her 2001 guide"
@@ -371,7 +372,7 @@ fantastic_beasts = Movie(name="Fantastic Beasts and Where to Find Them",
 session.add(fantastic_beasts)
 session.commit()
 
-hobbit = Movie(name="The Hobbit: An Unexpected Journey",
+hobbit = Movie(user_id=1, name="The Hobbit: An Unexpected Journey",
     description=("A 2012 film directed by Peter Jackson, tells the tale of"
                  " Bilbo Baggins, who is convinced by the wizard Gandalf to"
                  " accompany thirteen Dwarves, led by Thorin Oakenshield, on"
@@ -381,7 +382,8 @@ hobbit = Movie(name="The Hobbit: An Unexpected Journey",
 session.add(hobbit)
 session.commit()
 
-harry_potter = Movie(name="Harry Potter and the Deathly Hallows: Part 2",
+harry_potter = Movie(user_id=1,
+    name="Harry Potter and the Deathly Hallows: Part 2",
     description=("A 2011 film directed by David Yates, the film continues"
                  " to follow Harry Potter's quest to find and destroy Lord"
                  " Voldemort's Horcruxes in order to stop him once and"
@@ -400,7 +402,7 @@ session.commit()
 print("Horror genre added!")
 
 # Horror Movies
-us = Movie(name="Us",
+us = Movie(user_id=1, name="Us",
     description=("A 2019 film directed by Jordan Peele, it follows a family"
                  " who are confronted by murderous doppelgangers known as"
                  " 'the Tethered'"),
@@ -408,7 +410,7 @@ us = Movie(name="Us",
 session.add(us)
 session.commit()
 
-it = Movie(name="It",
+it = Movie(user_id=1, name="It",
     description=("A 2017 film directed by Andrés Muschietti, it tells the"
                  " story of seven children in Derry, Maine, who are"
                  " terrorized by the eponymous being, only to face their"
@@ -417,7 +419,7 @@ it = Movie(name="It",
 session.add(it)
 session.commit()
 
-get_out = Movie(name="Get Out",
+get_out = Movie(user_id=1, name="Get Out",
     description=("A 2017 film directed by Jordan Peele, it follows Chris"
                  " Washington, a young African-American man who uncovers"
                  " a disturbing secret when he meets the family of"
@@ -436,7 +438,7 @@ session.commit()
 print("Mystery genre added!")
 
 # Mystery Movies
-zodiac = Movie(name="Zodiac",
+zodiac = Movie(user_id=1, name="Zodiac",
     description=("A 2007 film directed by David Fincher, it tells the story"
                  " of the manhunt for the Zodiac Killer, a serial killer who"
                  " called himself the 'Zodiac' and killed in and around the"
@@ -446,7 +448,7 @@ zodiac = Movie(name="Zodiac",
 session.add(zodiac)
 session.commit()
 
-shutter = Movie(name="Shutter Island",
+shutter = Movie(user_id=1, name="Shutter Island",
     description=("A 2010 film directed by Martin Scorsese, U.S. Marshal"
                  " Edward 'Teddy' Daniels is investigating a psychiatric"
                  " facility on Shutter Island after one of the patients"
@@ -455,7 +457,7 @@ shutter = Movie(name="Shutter Island",
 session.add(shutter)
 session.commit()
 
-seven = Movie(name="Seven",
+seven = Movie(user_id=1, name="Seven",
     description=("A 1995 film directed by David Fincher, it tells the story"
                  " of David Mills, a detective who partners with the"
                  " retiring William Somerset to track down a serial killer"
@@ -474,7 +476,7 @@ session.commit()
 print("Romance genre added!")
 
 # Romance Movies
-notebook = Movie(name="The Notebook",
+notebook = Movie(user_id=1, name="The Notebook",
     description=("A 2004 film directed by Nick Cassavetes, the film stars"
                  " Ryan Gosling and Rachel McAdams as a young couple who "
                  "fall in love in the 1940s"),
@@ -482,7 +484,7 @@ notebook = Movie(name="The Notebook",
 session.add(notebook)
 session.commit()
 
-valentines = Movie(name="Valentine's Day",
+valentines = Movie(user_id=1, name="Valentine's Day",
     description=("A 2010 film directed by Garry Marshall, the film follows"
                  " a group of related characters and their struggles with"
                  " love on Valentine's Day"),
@@ -490,7 +492,7 @@ valentines = Movie(name="Valentine's Day",
 session.add(valentines)
 session.commit()
 
-proposal = Movie(name="The Proposal",
+proposal = Movie(user_id=1, name="The Proposal",
     description=("A 2009 film directed by Anne Fletcher, it centers on a"
                  " Canadian executive who learns that she may face"
                  " deportation from the U.S. because of her expired visa."
@@ -510,7 +512,7 @@ session.commit()
 print("Science Fiction genre added!")
 
 # Science Fiction Movies
-arrival = Movie(name="Arrival",
+arrival = Movie(user_id=1, name="Arrival",
     description=("A 2016 film directed by Denis Villeneuve, the  film"
                  " follows a linguist enlisted by the U.S. Army to discover"
                  " how to communicate with aliens who have arrived on Earth,"
@@ -519,7 +521,7 @@ arrival = Movie(name="Arrival",
 session.add(arrival)
 session.commit()
 
-interstellar = Movie(name="Interstellar",
+interstellar = Movie(user_id=1, name="Interstellar",
     description=("A 2014 film directed by Christopher Nolan, the film follows"
                  " a group of astronauts who travel through a wormhole near"
                  " Saturn in search of a new home for humanity"),
@@ -527,7 +529,7 @@ interstellar = Movie(name="Interstellar",
 session.add(interstellar)
 session.commit()
 
-inception = Movie(name="Inception",
+inception = Movie(user_id=1, name="Inception",
     description=("A 2010 film directed by Christopher Nolan, the film follows"
                  " a professional thief who steals information by infiltrating"
                  " the subconscious"),
@@ -545,7 +547,7 @@ session.commit()
 print("Thriller genre added!")
 
 # Thriller Movies
-lambs = Movie(name="The Silence of the Lambs",
+lambs = Movie(user_id=1, name="The Silence of the Lambs",
     description=("A 1991 film directed by Jonathan Demme, it follows Clarice"
                  " Starling, a young FBI trainee, who seeks the advice of"
                  " imprisoned Dr. Hannibal Lecter, a brilliant psychiatrist"
@@ -555,7 +557,7 @@ lambs = Movie(name="The Silence of the Lambs",
 session.add(lambs)
 session.commit()
 
-searching = Movie(name="Searching",
+searching = Movie(user_id=1, name="Searching",
     description=("A 2018 film directed by Aneesh Chaganty, set entirely on"
                  " computer screens and smartphones, the film follows a"
                  " father trying to find his missing 16-year-old daughter"
@@ -564,7 +566,7 @@ searching = Movie(name="Searching",
 session.add(searching)
 session.commit()
 
-gone_girl = Movie(name="Gone Girl",
+gone_girl = Movie(user_id=1, name="Gone Girl",
     description=("A 2014 film directed by David Fincher, the story begins as"
                  " a mystery that follows the events surrounding Nick Dunne,"
                  " who becomes the primary suspect in the sudden disappearance"
