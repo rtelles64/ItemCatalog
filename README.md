@@ -116,6 +116,12 @@ To exit the app, on your keyboard press `control + c`.
 
 To exit vagrant, on your keyboard press `control + d`.
 
+## Issues
+### Facebook Login
+When logging in with Facebook, a popup window is generated. Depending on your browser settings, this window may be blocked. You will have to enable this window in order to log in.
+After logging in, Facebook will tell you to `close tab to continue to app` please do so.
+You will then have to login again by clicking the Facebook login button once more. This will then say `previously logged in, do you wish to continue to app?` in which you say Ok
+
 ## Author(s)
 
 * **Roy Telles, Jr.** *(with the help of the Udacity team)*
