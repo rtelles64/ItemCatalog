@@ -33,6 +33,8 @@ CLIENT_ID = json.loads(open(
 # Read in facebook auth info
 APP_ID = json.loads(open(
     'fb_client_secrets.json', 'r').read())['web']['app_id']
+APP_SECRET = json.loads(open(
+    'fb_client_secrets.json', 'r').read())['web']['app_secret']
 
 # Import Database code
 from sqlalchemy import create_engine
