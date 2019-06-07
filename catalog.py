@@ -7,8 +7,15 @@
 # kill -9 PID
 
 # Set up Flask
-from flask import (flash, Flask, jsonify, redirect, render_template, request,
-                    url_for)
+from flask import (
+    flash,
+    Flask,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    url_for
+)
 app = Flask(__name__)
 
 # Add imports for authentication and authorization
@@ -39,6 +46,7 @@ APP_SECRET = json.loads(open(
 # Import Database code
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm.exc import NoResultFound
 from database_setup import Base, Genre, Movie, User
 
 engine = create_engine('sqlite:///catalog.db')
@@ -152,6 +160,8 @@ def gconnect():
     login_session['email'] = data["email"]
 
     # See if user exists, if it doesn't make a new one
+    # NOTE: Saving the user's state to the database helps maintain the user
+    #       state and make authentication and authorization easy to handle
     user_id = getUserID(data['email'])
     if not user_id:
         user_id = createUser(login_session)
@@ -364,7 +374,7 @@ def getUserID(email):
     try:
         user = session.query(User).filter_by(email=email).one()
         return user.id
-    except:
+    except NoResultFound:  # to avoid using bare exceptions
         return None
 
 
