@@ -92,3 +92,14 @@ figure {
 figcaption {
     font-size: .6em;
 }
+
+button {
+    border: none;
+    background-color: #3592e9; /* Gray */
+    color: black;
+    border-radius: 25px;
+    padding: 5px 15px;
+    display: inline-block;
+    margin: 4px 2px;
+    float: right;
+}
