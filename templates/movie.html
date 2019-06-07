@@ -1,40 +1,39 @@
-<html>
-<head>
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <div class="container">
-        <div class="general">
-            <h1>{{ movie.name }}</h1>
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <ul>
-                        {% for message in messages %}
-                        <li>
-                            <strong>{{ message }}</strong>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
-            </br>
-            <p>
-                {{ movie.description }}
-            </p>
-            <!-- The figure tag is new in HTML5, it should not affect the overall flow if removed
-            It is just an independent container for content like images and illustrations -->
-            <figure>
-                <img src="{{ creator.picture }}" alt="Image of Movie creator" width="40" height"40">
-                <!-- The figcaption tag defines a caption for a figure element -->
-                <figcaption>{{ creator.name }}</figcaption>
-            </figure>
-            
-            <a href='{{ url_for('edit_movie', genre_id=genre.id, movie_id=movie.id) }}'>Edit</a>
-            |
-            <a href='{{ url_for('delete_movie', genre_id=genre.id, movie_id=movie.id) }}'>Delete</a>
-            |
-            <a href= '{{url_for('show_movies', genre_id=genre.id)}}'>Back to Movies</a>
-        </div>
-    </div>
-</body>
-</html>
+{% extends "main.html" %}
+
+{% block content %}
+    {% block login %}
+        {{ super() }}
+    {% endblock %}
+    {% block content_header %}
+    <h1>{{ movie.name }}</h1>
+    {% endblock %}
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>
+                    <strong>{{ message }}</strong>
+                </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    </br>
+    <p>
+        {{ movie.description }}
+    </p>
+    <!-- The figure tag is new in HTML5, it should not affect the overall flow if removed
+    It is just an independent container for content like images and illustrations -->
+    <figure>
+        <img src="{{ creator.picture }}" alt="Image of Movie creator" width="40" height"40">
+        <!-- The figcaption tag defines a caption for a figure element -->
+        <figcaption>{{ creator.name }}</figcaption>
+    </figure>
+
+    <a href='{{ url_for('edit_movie', genre_id=genre.id, movie_id=movie.id) }}'>Edit</a>
+    |
+    <a href='{{ url_for('delete_movie', genre_id=genre.id, movie_id=movie.id) }}'>Delete</a>
+    |
+    <a href= '{{url_for('show_movies', genre_id=genre.id)}}'>Back to Movies</a>
+{% endblock %}
